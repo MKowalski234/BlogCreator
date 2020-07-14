@@ -11,6 +11,6 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('post', 'id_user', 'created', 'active')
-    # list_filter = ('publish',)
+    list_display = ('id_post', 'id_user', 'created', 'active')
+    list_filter = ('active', 'updated','created')
     search_fields = ('id_user', 'body')
