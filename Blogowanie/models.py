@@ -2,6 +2,10 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.db import models
+# from awesome_avatar.fields import AvatarField
+
+class Blog(models.Model):
+    title = models.CharField(max_length=250)
 
 
 class User(models.Model):
@@ -9,10 +13,16 @@ class User(models.Model):
     email = models.EmailField(max_length=100)
     password = models.CharField(max_length=100)
     description = models.TextField()
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
 
+# class Profile(models.Model):
+#     user = models.OneToOneField(User)
+#     avatar = models.AvatarField(upload_to='avatars', width=100, height=100)
+
+# jak połączyć folder 'avatars' z aplikacją?
 
 class Post(models.Model):
     STATUS_CHOICES = (
