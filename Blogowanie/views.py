@@ -15,7 +15,6 @@ def Main_view(request):
 def Admin_view(request):
     return render(request, 'admin_view.html')
 
-
 def post_list(request):
     posts = Post.published.all()
     return render(request,'blog/post/list.html', {'posts': posts})
