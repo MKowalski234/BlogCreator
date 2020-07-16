@@ -7,6 +7,9 @@ from django.db import models
 class Blog(models.Model):
     title = models.CharField(max_length=250)
 
+    def __str__(self):
+        return self.title
+
 
 class User(models.Model):
     name = models.CharField(max_length=100)
@@ -29,8 +32,7 @@ class Post(models.Model):
         ('draft', 'Draft'),
         ('published', 'Published')
     )
-    # id_post =
-    # id_blog =
+    id_blog = models.OneToOneField(Blog, on_delete=models.CASCADE)
     title = models.CharField(max_length=250)
     id_user = models.ForeignKey(User, on_delete=models.CASCADE)
     body = models.TextField()
