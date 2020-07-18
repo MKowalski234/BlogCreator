@@ -10,9 +10,9 @@ class BlogAdmin(admin.ModelAdmin):
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('name','email','blog',)
-    list_filter = ('name',)
-    search_fields = ('name','email','blog',)
+    list_display = ('name', 'email', 'blog', 'created')
+    list_filter = ('name', 'blog',)
+    search_fields = ('name', 'blog',)
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):

@@ -21,6 +21,7 @@ class User(models.Model):
     password = models.CharField(max_length=100)
     description = models.TextField()
     blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
+    created = models.DateTimeField(default=timezone.now)
 
     class Meta:
         ordering = ('name',)
@@ -43,7 +44,6 @@ class Post(models.Model):
     title = models.CharField(max_length=250)
     id_user = models.ForeignKey(User, on_delete=models.CASCADE)
     body = models.TextField()
-    # comments = models.TextField(null=True, blank=True)
     publish = models.DateTimeField(default=timezone.now)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
 
