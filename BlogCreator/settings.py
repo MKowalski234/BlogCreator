@@ -38,8 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Blogowanie',
-    'awesome_avatar',
-    'hitcount',
+    # 'awesome_avatar',
+    # 'hitcount',
 ]
 
 MIDDLEWARE = [

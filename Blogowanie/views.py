@@ -1,17 +1,20 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-from .models import Post
-from .models import User
+from .models import Post, User
+
 
 def Register(request):
     return render(request, 'register.html')
+
 def Login(request):
     return render(request, 'login.html')
+
 def Main_view(request):
     if request.user.is_authenticated(User):
         return render(request, 'user_view.html')
     else:
         return render(request, 'guest_view.html')
+
 def Admin_view(request):
     return render(request, 'admin_view.html')
 

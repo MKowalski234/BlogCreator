@@ -6,6 +6,10 @@ from django.db import models
 
 class Blog(models.Model):
     title = models.CharField(max_length=250)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ('created',)
 
     def __str__(self):
         return self.title
@@ -17,6 +21,9 @@ class User(models.Model):
     password = models.CharField(max_length=100)
     description = models.TextField()
     blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ('name',)
 
     def __str__(self):
         return self.name
@@ -32,7 +39,7 @@ class Post(models.Model):
         ('draft', 'Draft'),
         ('published', 'Published')
     )
-    id_blog = models.OneToOneField(Blog, on_delete=models.CASCADE)
+    id_blog = models.ForeignKey(Blog, on_delete=models.CASCADE, null=False, blank=False, default=True)
     title = models.CharField(max_length=250)
     id_user = models.ForeignKey(User, on_delete=models.CASCADE)
     body = models.TextField()
@@ -47,6 +54,7 @@ class Post(models.Model):
         return self.title
 
 class Comment(models.Model):
+    id_blog = models.ForeignKey(Blog, on_delete=models.CASCADE, null=False, blank=False, default=True)
     id_user = models.ForeignKey(User, on_delete=models.CASCADE)
     id_post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     name = models.CharField(max_length=80)

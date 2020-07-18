@@ -1,5 +1,18 @@
 from django.contrib import admin
-from.models import Post, Comment
+from.models import Post, Comment, Blog, User
+
+@admin.register(Blog)
+class BlogAdmin(admin.ModelAdmin):
+    list_display = ('title',)
+    list_filter = ('title',)
+    search_fields = ('title',)
+    ordering = ('created',)
+
+@admin.register(User)
+class UserAdmin(admin.ModelAdmin):
+    list_display = ('name','email','blog',)
+    list_filter = ('name',)
+    search_fields = ('name','email','blog',)
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
@@ -11,6 +24,6 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('id_post', 'id_user', 'created', 'active')
+    list_display = ('id_blog', 'id_user', 'id_post', 'name', 'created', 'active')
     list_filter = ('active', 'updated','created')
     search_fields = ('id_user', 'body')
