@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'Blogowanie',
     # 'awesome_avatar',
     # 'hitcount',
+    'crispy_forms',
+    'autentication',
 ]
 
 MIDDLEWARE = [
