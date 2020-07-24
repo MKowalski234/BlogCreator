@@ -3,3 +3,5 @@ packages required in project(add here)
 -django-crispy-forms
 -awesome avatars (maybe)
 -jak jeszcze jakieś pamiętasz co dodawaliśmy to dopisz
+    --> MJ: instalowałem tylko dodatek do zliczania wyświetleń u siebie wcześniej,
+    ale patrząc na przykładowy kod wątpie, by nam się udało to zaimplementować wszystko w tak krótkim czasie co chcemy

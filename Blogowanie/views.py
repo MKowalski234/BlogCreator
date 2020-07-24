@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-from .models import Post, User, Blog, Comment
+from .models import Post, Comment
 from django.contrib.auth.decorators import login_required
-from .forms import BlogForm, UserForm, CommentForm, PostForm
+from .forms import CommentForm
 
 # def Blogs(request):
 #     all_blogs = Blog.objects.all()
@@ -32,4 +32,20 @@ def post_list(request):
 def post_detail(request, year, month, day, post):
     post = get_object_or_404(Post, status='published', publish__year=year,
                              publish__month=month, publish__day=day)
-    return render(request, 'blog/post/detail.html', {'post': post})
+    comments = post.comments.filter(activate=True)
+
+    if request.method =='POST':
+        # publikowanie komentarza
+        comment_form = CommentForm(data=request.POST)
+        if comment_form.is_valid():
+            # tworzenie obiektu Comment bez zapisu w bazie danych
+            new_comment = comment_form.save(commit=False)
+            # przypisanie komentarza do bieżącego posta
+            new_comment.post = post
+            # zapisanie komentarza w bazie danych
+            new_comment.save()
+        else:
+            comment_form = CommentForm()
+        return render(request, 'blog/post/detail.html', {'post': post,
+                                                         'comments': comments,
+                                                         'comments_form': comment_form})
