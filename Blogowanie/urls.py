@@ -1,8 +1,10 @@
 from django.urls import path
-from django.conf.urls import url
 from . import views
 
-app_name = 'Blogowanie'
+#  czym różni się użycie path('') od url(r'^$') w urlpatterns?
+
+
+# app_name = 'Blogowanie'
 urlpatterns = [
-    path('', views.post_list, name='post_list'),
+    path('Blogs', views.list_of_blogs, name='Blogs'),
 ]
