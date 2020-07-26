@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     # 'awesome_avatar',
     # 'hitcount',
     'crispy_forms',
-    'autentication',
+    # 'autentication',
 ]
 
 MIDDLEWARE = [
@@ -122,6 +122,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 STATIC_URL = '/static/'
 

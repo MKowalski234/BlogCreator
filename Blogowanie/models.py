@@ -43,8 +43,11 @@ class Post(models.Model):
     id_blog = models.ForeignKey(Blog, on_delete=models.CASCADE, null=False, blank=False, default=True)
     title = models.CharField(max_length=250)
     id_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    slug = models.SlugField(max_length=250)
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
 
     class Meta:

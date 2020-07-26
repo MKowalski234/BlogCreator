@@ -1,12 +1,15 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-from .models import Post, Comment
+from .models import Post, Comment, User, Blog
 from django.contrib.auth.decorators import login_required
 from .forms import CommentForm
 
-# def Blogs(request):
-#     all_blogs = Blog.objects.all()
-#     return render(request, )
+@login_required
+def list_of_blogs(request):
+    all_blogs = Blog.objects.all()
+    template = 'BlogCreator/Blog/list_of_blogs.html'
+    context = {'all_blogs': all_blogs}
+    return render(request, template, context)
 
 def Register(request):
     return render(request, 'register.html')
@@ -24,7 +27,7 @@ def Admin_view(request):
     return render(request, 'admin_view.html')
 
 
-
+@login_required
 def post_list(request):
     posts = Post.published.all()
     return render(request,'blog/post/list.html', {'posts': posts})
