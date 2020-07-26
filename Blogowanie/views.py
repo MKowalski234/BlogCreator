@@ -6,9 +6,9 @@ from .forms import CommentForm
 
 @login_required
 def list_of_blogs(request):
-    all_blogs = Blog.objects.all()
-    template = 'BlogCreator/Blog/list_of_blogs.html'
-    context = {'all_blogs': all_blogs}
+    all_blogs2 = Blog.objects.all()
+    template = 'BlogCreator/blog/list_of_blogs.html'
+    context = {'all_blogs': all_blogs2}
     return render(request, template, context)
 
 def Register(request):
@@ -30,7 +30,7 @@ def Admin_view(request):
 @login_required
 def post_list(request):
     posts = Post.published.all()
-    return render(request,'blog/post/list.html', {'posts': posts})
+    return render(request,'blog/post/list_of_posts.html', {'posts': posts})
 
 def post_detail(request, year, month, day, post):
     post = get_object_or_404(Post, status='published', publish__year=year,
