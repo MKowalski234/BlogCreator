@@ -1,8 +1,11 @@
-from django.shortcuts import render, get_object_or_404
+from pyexpat.errors import messages
+
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import Post, Comment, User, Blog
 from django.contrib.auth.decorators import login_required
 from .forms import CommentForm
+from .forms import UserRegisterForm
 
 @login_required
 def list_of_blogs(request):
@@ -12,10 +15,7 @@ def list_of_blogs(request):
     return render(request, template, context)
 
 def Register(request):
-    return render(request, 'register.html')
-
-def Login(request):
-    return render(request, 'login.html')
+    return render(request, 'authentication/register.html')
 
 def Main_view(request):
     if request.user.is_authenticated(User):
@@ -52,3 +52,20 @@ def post_detail(request, year, month, day, post):
         return render(request, 'blog/post/detail.html', {'post': post,
                                                          'comments': comments,
                                                          'comments_form': comment_form})
+@login_required
+def Login(request):
+    return render(request, 'authentication/login.html')
+
+
+
+def register(request):
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Account created for {username}!')
+            return redirect('blog-home')
+    else:
+        form = UserRegisterForm()
+    return render(request, 'authentication/register.html', {'form': form})
