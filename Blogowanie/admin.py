@@ -3,9 +3,9 @@ from .models import Post, Comment, Blog, User
 
 @admin.register(Blog)
 class BlogAdmin(admin.ModelAdmin):
-    list_display = ('title',)
+    list_display = ('title', 'user')
     list_filter = ('title',)
-    search_fields = ('title',)
+    search_fields = ('title', 'user')
     ordering = ('created',)
 
 @admin.register(User)
@@ -16,7 +16,7 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'id_user', 'publish', 'status')
+    list_display = ('title', 'user', 'blog', 'publish', 'status')
     list_filter = ('publish',)
     search_fields = ('title', 'body')
     date_hierarchy = ('publish')
@@ -24,6 +24,6 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('id_blog', 'id_user', 'id_post', 'name', 'created', 'active')
+    list_display = ('blog', 'user', 'post', 'name', 'created', 'active')
     list_filter = ('active', 'updated','created')
-    search_fields = ('id_user', 'body')
+    search_fields = ('user', 'body')

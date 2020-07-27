@@ -1,20 +1,7 @@
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.db import models
-# from awesome_avatar.fields import AvatarField
-
-# trzeba się zastanowić jak zrobić pole użytkownika, który utworzył konkretny blog
-
-class Blog(models.Model):
-    title = models.CharField(max_length=250)
-    created = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ('created',)
-
-    def __str__(self):
-        return self.title
 
 
 class User(models.Model):
@@ -22,7 +9,6 @@ class User(models.Model):
     email = models.EmailField(max_length=100)
     password = models.CharField(max_length=100)
     description = models.TextField()
-    blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
     created = models.DateTimeField(default=timezone.now)
 
     class Meta:
@@ -31,20 +17,27 @@ class User(models.Model):
     def __str__(self):
         return self.name
 
-# class Profile(models.Model):
-#     user = models.OneToOneField(User)
-#     avatar = models.AvatarField(upload_to='avatars', width=100, height=100)
 
-# jak połączyć folder 'avatars' z aplikacją?
+class Blog(models.Model):
+    title = models.CharField(max_length=250)
+    created = models.DateTimeField(auto_now_add=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ('created',)
+
+    def __str__(self):
+        return self.title
+
 
 class Post(models.Model):
     STATUS_CHOICES = (
         ('draft', 'Draft'),
         ('published', 'Published')
     )
-    id_blog = models.ForeignKey(Blog, on_delete=models.CASCADE, null=False, blank=False, default=True)
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, null=False, blank=False, default=True)
     title = models.CharField(max_length=250)
-    id_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     slug = models.SlugField(max_length=250)
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
@@ -58,10 +51,11 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+
 class Comment(models.Model):
-    id_blog = models.ForeignKey(Blog, on_delete=models.CASCADE, null=False, blank=False, default=True)
-    id_user = models.ForeignKey(User, on_delete=models.CASCADE)
-    id_post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, null=False, blank=False, default=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     name = models.CharField(max_length=80)
     body = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
@@ -70,6 +64,3 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ('created',)
-
-    def __str__(self):
-        return 'Commend add by {} for post {}'.format(self.id_user, self.id_post)
