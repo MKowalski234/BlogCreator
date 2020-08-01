@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import CommentForm
 from .forms import UserRegisterForm
 
+
 @login_required
 def list_of_blogs(request):
     all_blogs = Blog.objects.all()
@@ -14,14 +15,13 @@ def list_of_blogs(request):
     context = {'all_blogs': all_blogs}
     return render(request, template, context)
 
-def Register(request):
-    return render(request, 'authentication/register.html')
 
 def Main_view(request):
     if request.user.is_authenticated(User):
         return render(request, 'user_view.html')
     else:
         return render(request, 'guest_view.html')
+
 
 def Admin_view(request):
     return render(request, 'admin_view.html')
@@ -30,14 +30,15 @@ def Admin_view(request):
 @login_required
 def post_list(request):
     posts = Post.published.all()
-    return render(request,'blog/post/list.html', {'posts': posts})
+    return render(request, 'blog/post/list.html', {'posts': posts})
+
 
 def post_detail(request, year, month, day, post):
     post = get_object_or_404(Post, status='published', publish__year=year,
                              publish__month=month, publish__day=day)
     comments = post.comments.filter(activate=True)
 
-    if request.method =='POST':
+    if request.method == 'POST':
         # publikowanie komentarza
         comment_form = CommentForm(data=request.POST)
         if comment_form.is_valid():
@@ -52,10 +53,11 @@ def post_detail(request, year, month, day, post):
         return render(request, 'blog/post/detail.html', {'post': post,
                                                          'comments': comments,
                                                          'comments_form': comment_form})
-@login_required
-def Login(request):
-    return render(request, 'authentication/login.html')
 
+
+@login_required
+def login(request):
+    return render(request, 'authentication/login.html')
 
 
 def register(request):
